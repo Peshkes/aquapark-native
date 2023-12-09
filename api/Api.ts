@@ -1,6 +1,6 @@
 
-type Role = 'admin' | 'employee';
-interface Answer {
+export type Role = 'admin' | 'employee';
+export interface Answer {
     name: string,
     role: Role
 }
