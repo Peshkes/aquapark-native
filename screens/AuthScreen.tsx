@@ -1,9 +1,10 @@
 import React from 'react';
 import {View} from "react-native";
+import {globalStyles} from "../styles/globalStyles";
 
 const AuthScreen = () => {
     return (
-        <View>
+        <View style={globalStyles.darkView}>
 
         </View>
     );

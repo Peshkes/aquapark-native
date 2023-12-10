@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {StatusBar, StyleSheet, View} from 'react-native';
 import React, {useState} from "react";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {Role} from "./api/Api";
@@ -10,7 +10,8 @@ import LeaveTheParkScreen from "./screens/LeaveTheParkScreen";
 import AdminScreen from "./screens/admin/AdminScreen";
 import InformationScreen from "./screens/InformationScreen";
 import WhoIsInsideScreen from "./screens/WhoIsInsideScreen";
-
+import {globalStyles} from "./styles/globalStyles";
+//tab constants
 const Tab = createBottomTabNavigator();
 const nameEnterTheParkScreen = 'Enter';
 const nameLeaveTheParkScreen = 'Leave';
@@ -21,7 +22,8 @@ export default function App() {
     const [isAuth, setIsAuth] = useState(false);
     const [role, setRole] = useState<Role>('admin');
     return (
-        <View style={styles.container}>
+        <View style={globalStyles.darkView}>
+            <StatusBar barStyle="light-content" backgroundColor={'black'}/>
             <NavigationContainer>
                 <Tab.Navigator
                     initialRouteName={role === 'admin' ? nameAdminScreen : nameEnterTheParkScreen}
@@ -31,11 +33,11 @@ export default function App() {
                             let routeName = route.name;
                             switch (routeName){
                                 case nameEnterTheParkScreen: {
-                                    iconName = focused ? 'enter' : 'enter-outline';
+                                    iconName = focused ? 'push' : 'push-outline';
                                     break;
                                 }
                                 case nameLeaveTheParkScreen: {
-                                    iconName = focused ? 'exit' : 'exit-outline';
+                                    iconName = focused ? 'share' : 'share-outline';
                                     break;
                                 }
                                 case nameAdminScreen: {
@@ -54,9 +56,20 @@ export default function App() {
                                     iconName = focused ? 'home' : 'home-outline';
                                     break;
                             }
-                            return <Ionicons name={iconName} color={color} size={size}></Ionicons>
+                            return <Ionicons name={iconName} color={color} size={size * 1.2}></Ionicons>
                         },
                         tabBarLabelPosition: "below-icon",
+                        tabBarStyle: {
+                            backgroundColor: 'black',
+                            borderTopColor: 'black',
+                        },
+                        headerStyle: {
+                            backgroundColor: 'black',
+                        },
+                        headerTintColor: 'white',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                        },
                     })}
                 >
                     <Tab.Screen name={nameEnterTheParkScreen} component={EnterTheParkScreen}/>
