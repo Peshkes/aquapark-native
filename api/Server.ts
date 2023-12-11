@@ -11,7 +11,7 @@ interface User extends Answer{
     password: string,
 }
 
-export class Api {
+export class Server {
     //mock data
     private dataArray: User[] = [
         {id: '1sad-sdaw2-faef4', login: 'admin', password: '7761', name: 'Valeriy', role: "admin"},

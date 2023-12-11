@@ -2,12 +2,12 @@ import React from 'react';
 import {Text, View} from "react-native";
 import {globalStyles} from "../../styles/globalStyles";
 
-const AdminScreen = () => {
+const IssueABraceletScreen = () => {
     return (
         <View style={globalStyles.darkView}>
-            <Text>AdminScreen</Text>
+            <Text>IssueABracletScreen</Text>
         </View>
     );
 };
 
-export default AdminScreen;
+export default IssueABraceletScreen;
