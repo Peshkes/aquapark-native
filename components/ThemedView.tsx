@@ -3,7 +3,7 @@ import {Keyboard, TouchableWithoutFeedback, View} from "react-native";
 import {ThemeContext} from "../utils/context";
 import {globalStyles} from "../styles/globalStyles";
 type Props = {
-    style: any
+    style?: any
     children: any
 }
 const ThemedView = (props: Props) => {

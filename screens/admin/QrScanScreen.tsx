@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, Keyboard, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import {BarCodeScanner} from 'expo-barcode-scanner';
 import {globalStyles} from '../../styles/globalStyles';
+import ThemedView from "../../components/ThemedView";
 
 const QrScanScreen = () => {
     const [hasPermission, setHasPermission] = useState(false);
@@ -33,23 +34,24 @@ const QrScanScreen = () => {
     const stopScanning = () => {
         setIsScanning(false);
         setScanned(false);
+        setText('I am ready to scan');
     };
 
     if (!hasPermission) {
         return (
 
-            <View style={{...globalStyles.darkView, ...globalStyles.container}}>
+            <ThemedView style={globalStyles.container}>
                 <Text style={{...globalStyles.darkText, ...styles.text}}>
                     No access to camera
                 </Text>
                 <Button title={'Allow Camera'} onPress={() => askForCameraPermission()}/>
-            </View>
+            </ThemedView>
 
         );
     }
 
     return (
-        <View style={{...globalStyles.container, ...globalStyles.darkView}}>
+        <ThemedView style={globalStyles.container}>
             <View style={styles.barcodeBox}>
                 {isScanning && (<BarCodeScanner
                     onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
@@ -64,7 +66,7 @@ const QrScanScreen = () => {
             {isScanning && (
                 <Button title={'Stop Scan'} onPress={stopScanning}/>
             )}
-        </View>
+        </ThemedView>
     );
 };
 

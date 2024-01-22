@@ -1,12 +1,13 @@
 import React from 'react';
 import {Text, View} from "react-native";
 import {globalStyles} from "../../styles/globalStyles";
+import ThemedView from "../../components/ThemedView";
 
 const IssueABraceletScreen = () => {
     return (
-        <View style={globalStyles.darkView}>
+        <ThemedView>
             <Text>IssueABracletScreen</Text>
-        </View>
+        </ThemedView>
     );
 };
 

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Text, View} from "react-native";
 import {globalStyles} from "../styles/globalStyles";
+import ThemedView from "../components/ThemedView";
 // import {NFC} from "../api/NFC";
 
 const EnterTheParkScreen = () => {
@@ -16,10 +17,10 @@ const EnterTheParkScreen = () => {
     }
 
     return (
-        <View style={globalStyles.darkView}>
+        <ThemedView>
             <Text style={globalStyles.darkText}>{text}</Text>
             <Button title={'Go!'} onPress={pressHandler}></Button>
-        </View>
+        </ThemedView>
     );
 };
 

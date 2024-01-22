@@ -1,12 +1,12 @@
 import React from 'react';
-import {Text, View} from "react-native";
-import {globalStyles} from "../styles/globalStyles";
+import {Text} from "react-native";
+import ThemedView from "../components/ThemedView";
 
 const WhoIsInsideScreen = () => {
     return (
-        <View style={globalStyles.darkView}>
+        <ThemedView>
             <Text>WhoIsInsideScreen</Text>
-        </View>
+        </ThemedView>
     );
 };
 

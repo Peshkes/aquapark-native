@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import EnterTheParkScreen from "../screens/EnterTheParkScreen";
 import LeaveTheParkScreen from "../screens/LeaveTheParkScreen";
 import InformationScreen from "../screens/InformationScreen";
 import WhoIsInsideScreen from "../screens/WhoIsInsideScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import ToggleTheme from "../components/ToggleTheme";
+import Logout from "../components/Logout";
+import {globalStyles} from "../styles/globalStyles";
+import {ThemeContext} from "../utils/context";
 
 const Tab = createBottomTabNavigator();
 const nameEnterTheParkScreen = 'Enter';
@@ -12,6 +16,7 @@ const nameLeaveTheParkScreen = 'Leave';
 const nameInformationScreen = 'Info';
 const nameWhoIsInsideScreen = 'Who is in?';
 const TabEmployeeNavigator = () => {
+    const {theme} = useContext(ThemeContext);
     return (
         <Tab.Navigator
             initialRouteName={nameEnterTheParkScreen}
@@ -44,22 +49,40 @@ const TabEmployeeNavigator = () => {
                 },
                 tabBarLabelPosition: "below-icon",
                 tabBarStyle: {
-                    backgroundColor: 'black',
-                    borderTopColor: 'black',
+                    backgroundColor: globalStyles[`${theme}View`].backgroundColor,
+                    borderTopColor: globalStyles[`${theme}View`].backgroundColor,
                 },
                 headerStyle: {
-                    backgroundColor: 'black',
+                    backgroundColor: globalStyles[`${theme}View`].backgroundColor,
                 },
-                headerTintColor: 'white',
+                headerTintColor: globalStyles[`${theme}Text`].color,
                 headerTitleStyle: {
                     fontWeight: 'bold',
                 },
+                headerLeftContainerStyle:{
+                    paddingLeft: 20
+                },
+                headerRightContainerStyle:{
+                    paddingRight: 20
+                }
             })}
         >
-            <Tab.Screen name={nameEnterTheParkScreen} component={EnterTheParkScreen}/>
-            <Tab.Screen name={nameLeaveTheParkScreen} component={LeaveTheParkScreen}/>
-            <Tab.Screen name={nameInformationScreen} component={InformationScreen}/>
-            <Tab.Screen name={nameWhoIsInsideScreen} component={WhoIsInsideScreen}/>
+            <Tab.Screen name={nameEnterTheParkScreen} component={EnterTheParkScreen}  options={{
+                headerLeft: () => (<ToggleTheme/>),
+                headerRight: () => (<Logout/>)
+            }}/>
+            <Tab.Screen name={nameLeaveTheParkScreen} component={LeaveTheParkScreen}  options={{
+                headerLeft: () => (<ToggleTheme/>),
+                headerRight: () => (<Logout/>)
+            }}/>
+            <Tab.Screen name={nameInformationScreen} component={InformationScreen}  options={{
+                headerLeft: () => (<ToggleTheme/>),
+                headerRight: () => (<Logout/>)
+            }}/>
+            <Tab.Screen name={nameWhoIsInsideScreen} component={WhoIsInsideScreen}  options={{
+                headerLeft: () => (<ToggleTheme/>),
+                headerRight: () => (<Logout/>)
+            }}/>
         </Tab.Navigator>
     );
 };

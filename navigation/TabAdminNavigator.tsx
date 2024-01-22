@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import EnterTheParkScreen from "../screens/EnterTheParkScreen";
 import LeaveTheParkScreen from "../screens/LeaveTheParkScreen";
@@ -9,7 +9,12 @@ import qrScanScreen from "../screens/admin/QrScanScreen";
 import QrScanScreen from "../screens/admin/QrScanScreen";
 import IssueABraceletScreen from "../screens/admin/IssueABraceletScreen";
 import AnalyticsScreen from "../screens/admin/AnalyticsScreen";
-import OtherEmployeeFunctionsScreen from "../screens/admin/OtherEmployeeFunctionsScreen";
+import OtherFunctionsScreen from "../screens/admin/OtherFunctionsScreen";
+import StackAdminNavigator from "./StackAdminNavigator";
+import ToggleTheme from "../components/ToggleTheme";
+import Logout from "../components/Logout";
+import {ThemeContext} from "../utils/context";
+import {globalStyles} from "../styles/globalStyles";
 
 const Tab = createBottomTabNavigator();
 const nameQRScanScreen = 'QRScan';
@@ -18,6 +23,7 @@ const nameAnalyticsScreen = 'Analytics';
 const nameWhoIsInsideScreen = 'Who is in?';
 const nameOtherFunctionsScreen = 'Other';
 const TabAdminNavigator = () => {
+    const {theme} = useContext(ThemeContext);
     return (
         <Tab.Navigator
             initialRouteName={nameQRScanScreen}
@@ -54,23 +60,23 @@ const TabAdminNavigator = () => {
                 },
                 tabBarLabelPosition: "below-icon",
                 tabBarStyle: {
-                    backgroundColor: 'black',
-                    borderTopColor: 'black',
+                    backgroundColor: globalStyles[`${theme}View`].backgroundColor,
+                    borderTopColor: globalStyles[`${theme}View`].backgroundColor,
                 },
                 headerStyle: {
-                    backgroundColor: 'black',
+                    backgroundColor: globalStyles[`${theme}View`].backgroundColor,
                 },
-                headerTintColor: 'white',
+                headerTintColor: globalStyles[`${theme}Text`].color,
                 headerTitleStyle: {
                     fontWeight: 'bold',
-                },
+                }
             })}
         >
             <Tab.Screen name={nameQRScanScreen} component={QrScanScreen}/>
             <Tab.Screen name={nameIssueABraceletScreen} component={IssueABraceletScreen}/>
             <Tab.Screen name={nameAnalyticsScreen} component={AnalyticsScreen}/>
             <Tab.Screen name={nameWhoIsInsideScreen} component={WhoIsInsideScreen}/>
-            <Tab.Screen name={nameOtherFunctionsScreen} component={OtherEmployeeFunctionsScreen}/>
+            <Tab.Screen name={nameOtherFunctionsScreen} component={StackAdminNavigator} options={{ headerShown: false }}/>
         </Tab.Navigator>
     );
 };

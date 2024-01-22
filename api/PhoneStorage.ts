@@ -1,0 +1,56 @@
+import {User} from "../utils/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {date} from "yup";
+
+type UserData = {
+    user: User
+    expirationTime: number
+}
+
+export class PhoneStorage {
+    static saveUser = async (user: User) => {
+        const userData: UserData = {
+            user: null,
+            expirationTime: 0
+        }
+        const today = new Date();
+        const endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1, 0, 0, 0, 0);
+        userData.expirationTime = endOfToday.getTime();
+        userData.user = user;
+        try {
+            const userDataString = JSON.stringify(userData);
+            await AsyncStorage.setItem('userData', userDataString);
+        } catch (e) {
+            console.error('Ошибка сохранения пользователя:', e);
+        }
+    };
+
+    static getUser = async (): Promise<User | null> => {
+        try {
+            const userString = await AsyncStorage.getItem('userData');
+            let userData: UserData | null = null;
+            if (userString){
+                userData = JSON.parse(userString);
+                if (userData && userData.expirationTime && userData.expirationTime > Date.now()){
+                    return userData.user;
+                } else {
+                    await PhoneStorage.clearUser();
+                }
+            }
+            return null;
+        } catch (e) {
+            console.error('Ошибка получения пользователя:', e);
+            return null;
+        }
+    };
+
+    static clearUser = async () => {
+        try {
+            await AsyncStorage.removeItem('userData');
+        } catch (e) {
+            console.error('Ошибка очистки пользователя:', e);
+        }
+    };
+
+
+}
