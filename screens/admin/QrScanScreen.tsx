@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {Button, Keyboard, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import {BarCodeScanner} from 'expo-barcode-scanner';
 import {globalStyles} from '../../styles/globalStyles';
 
@@ -37,17 +37,19 @@ const QrScanScreen = () => {
 
     if (!hasPermission) {
         return (
-            <View style={{...globalStyles.darkView, ...styles.container}}>
+
+            <View style={{...globalStyles.darkView, ...globalStyles.container}}>
                 <Text style={{...globalStyles.darkText, ...styles.text}}>
                     No access to camera
                 </Text>
                 <Button title={'Allow Camera'} onPress={() => askForCameraPermission()}/>
             </View>
+
         );
     }
 
     return (
-        <View style={{...styles.container, ...globalStyles.darkView}}>
+        <View style={{...globalStyles.container, ...globalStyles.darkView}}>
             <View style={styles.barcodeBox}>
                 {isScanning && (<BarCodeScanner
                     onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
@@ -69,10 +71,6 @@ const QrScanScreen = () => {
 export default QrScanScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     text: {
         fontSize: 16,
         margin: 20,
