@@ -5,12 +5,12 @@ import {ThemeContext} from "../utils/context";
 import {TextType} from "../styles/styleTypes";
 type Props = {
     children: any,
-    style: TextType
+    style?: TextType | any
 }
 const ThemedText = (props: Props) => {
     const {theme} = useContext(ThemeContext);
     return (
-        <Text style={globalStyles[`${theme}${props.style}`]}>{props.children}</Text>
+        <Text style={{...globalStyles[`${theme}Text`], ...props.style}}>{props.children}</Text>
     );
 };
 

@@ -1,6 +1,7 @@
 import {User} from "../utils/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {date} from "yup";
+import {Theme} from "../styles/styleTypes";
 
 type UserData = {
     user: User
@@ -29,9 +30,9 @@ export class PhoneStorage {
         try {
             const userString = await AsyncStorage.getItem('userData');
             let userData: UserData | null = null;
-            if (userString){
+            if (userString) {
                 userData = JSON.parse(userString);
-                if (userData && userData.expirationTime && userData.expirationTime > Date.now()){
+                if (userData && userData.expirationTime && userData.expirationTime > Date.now()) {
                     return userData.user;
                 } else {
                     await PhoneStorage.clearUser();
@@ -51,6 +52,24 @@ export class PhoneStorage {
             console.error('Ошибка очистки пользователя:', e);
         }
     };
+
+    static saveTheme = async (theme: Theme) => {
+        try {
+            await AsyncStorage.setItem('theme', theme);
+        } catch (e) {
+            console.error('Ошибка сохранения темы:', e);
+        }
+    }
+
+    static getTheme = async (): Promise<Theme | null> => {
+        try {
+            const theme = await AsyncStorage.getItem('theme') as Theme;
+            return theme || null;
+        } catch (e) {
+            console.error('Ошибка получения темы:', e);
+            return null;
+        }
+    }
 
 
 }

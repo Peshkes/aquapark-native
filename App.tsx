@@ -17,14 +17,17 @@ export default function App() {
     const [theme, setTheme] = useState<Theme>('dark');
 
     useEffect(() => {
-        const checkAuthentication = async () => {
+        const checkPhoneStorage = async () => {
             const user = await PhoneStorage.getUser();
             if (user) {
                 setUser(user);
                 setIsAuth(true);
             }
+            const gotTheme = await PhoneStorage.getTheme();
+            if (gotTheme && gotTheme != theme)
+                setTheme(gotTheme);
         };
-        checkAuthentication();
+        checkPhoneStorage();
     }, []);
 
     return (
@@ -33,7 +36,11 @@ export default function App() {
             <ThemeContext.Provider value={{
                 theme,
                 toggleTheme: () => {
-                    setTheme(prevTheme => (prevTheme === 'dark' ? 'light' : 'dark'));
+                    setTheme(prevTheme => {
+                        const newTheme: Theme = prevTheme === 'dark' ? 'light' : 'dark';
+                        PhoneStorage.saveTheme(newTheme);
+                        return newTheme;
+                    });
                 },
             }}>
                 <UserContext.Provider value={{

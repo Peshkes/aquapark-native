@@ -36,6 +36,7 @@ const OtherFunctionsScreen = () => {
                 keyExtractor={(item) => item.title}
                 renderItem={({ item }) => (
                     <TouchableOpacity
+                        activeOpacity={0.8}
                         style={styles.button}
                         onPress={() => (item.function ? item.function() : navigation.navigate(item.screen as never))}
                     >
