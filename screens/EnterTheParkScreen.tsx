@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Text, View} from "react-native";
-import {globalStyles} from "../styles/globalStyles";
+import {Button} from "react-native";
 import ThemedView from "../components/ThemedView";
 import ThemedText from "../components/ThemedText";
 // import {NFC} from "../api/NFC";

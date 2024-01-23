@@ -1,6 +1,5 @@
 import {User} from "../utils/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {date} from "yup";
 import {Theme} from "../styles/styleTypes";
 
 type UserData = {
