@@ -1,4 +1,4 @@
-import {LoginData} from "../utils/types";
+import {LoginData, RegistrationData} from "../utils/types";
 import {serverUrl} from "../utils/constants";
 
 type RequestOptions = {
@@ -9,15 +9,11 @@ type RequestOptions = {
 }
 
 export class Server {
-
-    static login = async (loginData: LoginData) => {
+    private static async sendRequest(endpoint: string, data: Record<string, any>): Promise<any> {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
-        const raw = JSON.stringify({
-            "username": loginData.login,
-            "password": loginData.password
-        });
+        const raw = JSON.stringify(data);
 
         const requestOptions: RequestOptions = {
             method: 'POST',
@@ -26,13 +22,34 @@ export class Server {
             redirect: 'follow'
         };
 
-        const response = await fetch(`${serverUrl}/guest/authentication`, requestOptions);
+        const response = await fetch(`${serverUrl}${endpoint}`, requestOptions);
         const responseBody = await response.text();
         const result = await JSON.parse(responseBody);
-        if (response.ok){
+
+        if (response.ok) {
             return result;
         } else {
             throw new Error(`Fetch ${result.status}:${result.message}`);
         }
+    }
+
+    static login = async (loginData: LoginData) => {
+        const data = {
+            "username": loginData.login,
+            "password": loginData.password
+        };
+
+        return Server.sendRequest('/guest/authentication', data);
+    }
+
+    static registration = async (regData: RegistrationData) => {
+        const data = {
+            "name": regData.name,
+            "email": regData.login,
+            "password": regData.password,
+            "roleId": regData.roleId.toString()
+        };
+
+        return Server.sendRequest('/guest/create-account', data);
     }
 }

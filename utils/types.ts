@@ -11,6 +11,11 @@ export type LoginData = {
     password: string
 }
 
+export type RegistrationData = LoginData & {
+    name: string
+    roleId: number
+}
+
 export interface RegistrationAnswer {
     name: string,
     roles: Array<Role>
