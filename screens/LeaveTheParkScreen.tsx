@@ -1,11 +1,10 @@
 import React from 'react';
 import {Text} from "react-native";
-import {globalStyles} from "../styles/globalStyles";
 import ThemedView from '../components/ThemedView';
 
 const LeaveTheParkScreen = () => {
     return (
-        <ThemedView style={globalStyles.darkView}>
+        <ThemedView>
             <Text>LeaveTheParkScreen</Text>
         </ThemedView>
     );

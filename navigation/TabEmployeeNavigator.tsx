@@ -1,51 +1,38 @@
 import React, {useContext} from 'react';
 import Ionicons from "@expo/vector-icons/Ionicons";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {globalStyles} from "../styles/globalStyles";
+import {ThemeContext} from "../utils/context";
+
 import EnterTheParkScreen from "../screens/EnterTheParkScreen";
 import LeaveTheParkScreen from "../screens/LeaveTheParkScreen";
 import InformationScreen from "../screens/InformationScreen";
 import WhoIsInsideScreen from "../screens/WhoIsInsideScreen";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import ToggleTheme from "../components/ToggleTheme";
-import Logout from "../components/Logout";
-import {globalStyles} from "../styles/globalStyles";
-import {ThemeContext} from "../utils/context";
+import StackAdminNavigator from "./StackAdminNavigator";
 
 const Tab = createBottomTabNavigator();
-const nameEnterTheParkScreen = 'Enter';
-const nameLeaveTheParkScreen = 'Leave';
-const nameInformationScreen = 'Info';
-const nameWhoIsInsideScreen = 'Who is in?';
+
+const tabData = [
+    { name: 'Enter', component: EnterTheParkScreen, icon: 'push' },
+    { name: 'Leave', component: LeaveTheParkScreen, icon: 'share' },
+    { name: 'Info', component: InformationScreen, icon: 'information' },
+    { name: 'Who is in?', component: WhoIsInsideScreen, icon: 'help' },
+    { name: 'Other', component: StackAdminNavigator, icon: 'people'},
+];
+
 const TabEmployeeNavigator = () => {
-    const {theme} = useContext(ThemeContext);
+    const { theme } = useContext(ThemeContext);
+
     return (
         <Tab.Navigator
-            initialRouteName={nameEnterTheParkScreen}
-            screenOptions={({route}) => ({
-                tabBarIcon: ({focused, color, size}) => {
-                    let iconName: keyof typeof Ionicons.glyphMap;
-                    let routeName = route.name;
-                    switch (routeName){
-                        case nameEnterTheParkScreen: {
-                            iconName = focused ? 'push' : 'push-outline';
-                            break;
-                        }
-                        case nameLeaveTheParkScreen: {
-                            iconName = focused ? 'share' : 'share-outline';
-                            break;
-                        }
-                        case nameInformationScreen: {
-                            iconName = focused ? 'information' : 'information-outline';
-                            break;
-                        }
-                        case nameWhoIsInsideScreen: {
-                            iconName = focused ? 'help' : 'help-outline';
-                            break;
-                        }
-                        default:
-                            iconName = focused ? 'home' : 'home-outline';
-                            break;
-                    }
-                    return <Ionicons name={iconName} color={color} size={size * 1.2}></Ionicons>
+            initialRouteName={tabData[0].name}
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                    const tabInfo = tabData.find(tab => tab.name === route.name);
+                    if (!tabInfo) return null;
+
+                    const iconName = focused ? tabInfo.icon as keyof typeof Ionicons.glyphMap : `${tabInfo.icon}-outline` as keyof typeof Ionicons.glyphMap;
+                    return <Ionicons name={iconName} color={color} size={size * 1.2} />;
                 },
                 tabBarLabelPosition: "below-icon",
                 tabBarStyle: {
@@ -59,30 +46,21 @@ const TabEmployeeNavigator = () => {
                 headerTitleStyle: {
                     fontWeight: 'bold',
                 },
-                headerLeftContainerStyle:{
-                    paddingLeft: 20
+                headerLeftContainerStyle: {
+                    paddingLeft: 20,
                 },
-                headerRightContainerStyle:{
-                    paddingRight: 20
-                }
+                headerRightContainerStyle: {
+                    paddingRight: 20,
+                },
             })}
         >
-            <Tab.Screen name={nameEnterTheParkScreen} component={EnterTheParkScreen}  options={{
-                headerLeft: () => (<ToggleTheme/>),
-                headerRight: () => (<Logout/>)
-            }}/>
-            <Tab.Screen name={nameLeaveTheParkScreen} component={LeaveTheParkScreen}  options={{
-                headerLeft: () => (<ToggleTheme/>),
-                headerRight: () => (<Logout/>)
-            }}/>
-            <Tab.Screen name={nameInformationScreen} component={InformationScreen}  options={{
-                headerLeft: () => (<ToggleTheme/>),
-                headerRight: () => (<Logout/>)
-            }}/>
-            <Tab.Screen name={nameWhoIsInsideScreen} component={WhoIsInsideScreen}  options={{
-                headerLeft: () => (<ToggleTheme/>),
-                headerRight: () => (<Logout/>)
-            }}/>
+            {tabData.map(tab => (
+                <Tab.Screen
+                    key={tab.name}
+                    name={tab.name}
+                    component={tab.component}
+                />
+            ))}
         </Tab.Navigator>
     );
 };

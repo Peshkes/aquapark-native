@@ -1,10 +1,10 @@
 import React, {useContext} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity} from "react-native";
-import {globalStyles} from "../../styles/globalStyles";
+import {globalStyles} from "../styles/globalStyles";
 import {useNavigation} from "@react-navigation/native";
-import ThemedView from "../../components/ThemedView";
+import ThemedView from "../components/ThemedView";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import {ThemeContext, UserContext} from "../../utils/context";
+import {ThemeContext, UserContext} from "../utils/context";
 
 type Button = {
     title: string
@@ -13,20 +13,25 @@ type Button = {
     iconName: keyof typeof Ionicons.glyphMap;
 }
 
-const OtherFunctionsScreen = () => {
+const OtherFunctionsScreen = ({route}: any) => {
     const navigation = useNavigation();
     const { toggleTheme } = useContext(ThemeContext);
     const { logout } = useContext(UserContext);
+    const source = route.params?.source;
 
-    const allButtons: Array<Button> = [
+    const functionButtons: Array<Button> = [
         { title: 'Theme', function: toggleTheme, iconName: 'moon-outline' },
         { title: 'Logout', function: logout, iconName: 'power-outline' },
+    ];
+
+    const navigationButtons: Array<Button> = [
         { title: 'Registration', screen: 'Registration', iconName: 'person-add-outline' },
         { title: 'Enter', screen: 'Enter', iconName: 'log-in-outline' },
         { title: 'Information', screen: 'Information', iconName: 'information-circle-outline' },
         { title: 'Leave', screen: 'Leave', iconName: 'log-out-outline' },
-    ];
+    ]
 
+    const allButtons: Array<Button> = source === 'admin' ? functionButtons.concat(navigationButtons) : functionButtons;
     return (
         <ThemedView style={globalStyles.stackSubView}>
             <FlatList
@@ -60,7 +65,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'grey', // ваш цвет фона кнопки
+        backgroundColor: 'grey',
         padding: 10,
         margin: 10,
         borderRadius: 8,
